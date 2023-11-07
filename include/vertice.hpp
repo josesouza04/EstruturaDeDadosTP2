@@ -3,8 +3,11 @@
 
 class Vertice {
     public:
-        Vertice() {id = 0; coloracao = 0; proximo = nullptr; proximoVizinho = nullptr;};
+        // Construtores
+        Vertice() {id = 0; coloracao = 0; proximo = nullptr; proximoVizinho = nullptr;}; 
         Vertice(int id_) {id = id_; coloracao = 0; proximo = nullptr; proximoVizinho = nullptr;};
+
+        // Funções de manipulação do Vértice
         void setId(int id_) {id = id_;};
         void setColor(int color_) {coloracao = color_;};
         void setProximo(Vertice* proximo_) {proximo = proximo_;};

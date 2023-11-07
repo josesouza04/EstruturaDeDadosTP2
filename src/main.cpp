@@ -22,11 +22,15 @@ int main() {
     }
 
     std::cout << "-------------------" << std::endl;
+    
     //imprimir grafo
     for (int i = 0; i < tamanhoGrafo; i++) {
-        std::cout << i << ": ";
+        std::cout << i << ": cor: " << grafo->getVertice(i)->getColor();
+        std::cout << " vizinhos: ";
         grafo->imprimeVizinhos(i);
     }
+
+    std::cout << "-------------------" << std::endl;
 
     return 0;
 }

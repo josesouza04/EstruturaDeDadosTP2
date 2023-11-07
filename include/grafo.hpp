@@ -6,10 +6,12 @@
 
 class Grafo {
     public:
-        // Tratamento do grafo em si
+        // Construtores e destrutor
         Grafo() {tamanho = 0; primeiroVertice = nullptr; ultimoVertice = nullptr;};
-        Grafo(int tamanho_);
+        Grafo(int tamanho_); // Construtor que recebe o tamanho do grafo e cria um grafo ordenado numericamente
         ~Grafo();
+
+        // Funções de manipulação do Grafo
         void setTamanho(int tamanho_) {tamanho = tamanho_;};
         void setPrimeiroVertice(Vertice* primeiroVertice_) {primeiroVertice = primeiroVertice_;};
         void setUltimoVertice(Vertice* ultimoVertice_) {ultimoVertice = ultimoVertice_;};
@@ -26,8 +28,8 @@ class Grafo {
 
     private:
         int tamanho;
-        Vertice* primeiroVertice;
-        Vertice* ultimoVertice;
+        Vertice* primeiroVertice; // Ponteiro para o primeiro vértice do grafo
+        Vertice* ultimoVertice; // Ponteiro para o último vértice do grafo
 };
 
 #endif // GRAFO_HPP
