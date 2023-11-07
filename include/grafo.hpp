@@ -16,12 +16,13 @@ class Grafo {
         int getTamanho() {return tamanho;};
         Vertice* getPrimeiroVertice() {return primeiroVertice;};
         Vertice* getUltimoVertice() {return ultimoVertice;};
+        Vertice* getVertice(int id_);
         bool vazio() {return (tamanho == 0);};
         void imprime();
 
         // Tratamento dos vértices e seus vizinhos
-        void insereAresta(int idA, int idB);
-        void imprimeVizinhos(int id);
+        void insereAresta(int idA_, int idB_);
+        void imprimeVizinhos(int id_);
 
     private:
         int tamanho;

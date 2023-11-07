@@ -21,6 +21,18 @@ Grafo::~Grafo() {
     }
 }
 
+Vertice* Grafo::getVertice(int id_) {
+    Vertice* verticeAtual = primeiroVertice;
+    while (verticeAtual != nullptr) {
+        if (verticeAtual->getId() == id_) {
+            return verticeAtual;
+        }
+        verticeAtual = verticeAtual->getProximo();
+    }
+    return nullptr;
+
+}
+
 void Grafo::imprime() {
     Vertice* verticeAtual = primeiroVertice;
     while (verticeAtual != nullptr) {
@@ -30,11 +42,11 @@ void Grafo::imprime() {
     std::cout << std::endl;
 }
 
-void Grafo::insereAresta(int idA, int idB) {
+void Grafo::insereAresta(int idA_, int idB_) {
     Vertice* verticeAtual = primeiroVertice;
     while (verticeAtual != nullptr) {
-        if (verticeAtual->getId() == idA) {
-            Vertice* novoVizinho = new Vertice(idB);
+        if (verticeAtual->getId() == idA_) {
+            Vertice* novoVizinho = new Vertice(idB_);
             Vertice* vizinhoAtual = verticeAtual->getProximoVizinho();
             if (vizinhoAtual == nullptr) {
                 verticeAtual->setProximoVizinho(novoVizinho);
@@ -45,8 +57,8 @@ void Grafo::insereAresta(int idA, int idB) {
                 vizinhoAtual->setProximoVizinho(novoVizinho);
             }
         }
-        if (verticeAtual->getId() == idB) {
-            Vertice* novoVizinho = new Vertice(idA);
+        if (verticeAtual->getId() == idB_) {
+            Vertice* novoVizinho = new Vertice(idA_);
             Vertice* vizinhoAtual = verticeAtual->getProximoVizinho();
             if (vizinhoAtual == nullptr) {
                 verticeAtual->setProximoVizinho(novoVizinho);
@@ -61,10 +73,10 @@ void Grafo::insereAresta(int idA, int idB) {
     }
 }
 
-void Grafo::imprimeVizinhos(int id) {
+void Grafo::imprimeVizinhos(int id_) {
     Vertice* verticeAtual = primeiroVertice;
     while (verticeAtual != nullptr) {
-        if (verticeAtual->getId() == id) {
+        if (verticeAtual->getId() == id_) {
             Vertice* vizinhoAtual = verticeAtual->getProximoVizinho();
             while (vizinhoAtual != nullptr) {
                 std::cout << vizinhoAtual->getId() << " ";
