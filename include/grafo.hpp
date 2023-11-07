@@ -6,6 +6,7 @@
 
 class Grafo {
     public:
+        // Tratamento do grafo em si
         Grafo() {tamanho = 0; primeiroVertice = nullptr; ultimoVertice = nullptr;};
         Grafo(int tamanho_);
         ~Grafo();
@@ -17,6 +18,10 @@ class Grafo {
         Vertice* getUltimoVertice() {return ultimoVertice;};
         bool vazio() {return (tamanho == 0);};
         void imprime();
+
+        // Tratamento dos vértices e seus vizinhos
+        void insereAresta(int idA, int idB);
+        void imprimeVizinhos(int id);
 
     private:
         int tamanho;
