@@ -47,11 +47,14 @@ void Grafo::insereAresta(int idA_, int idB_) {
     while (verticeAtual != nullptr) {
         if (verticeAtual->getId() == idA_) {
             Vertice* novoVizinho = new Vertice(idB_);
+            novoVizinho->setProximoVizinho(nullptr);
             Vertice* vizinhoAtual = verticeAtual->getProximoVizinho();
             if (vizinhoAtual == nullptr) {
                 verticeAtual->setProximoVizinho(novoVizinho);
             } else {
+                if (vizinhoAtual->getId() == idB_) return;
                 while (vizinhoAtual->getProximoVizinho() != nullptr) {
+                    if (vizinhoAtual->getProximoVizinho()->getId() == idB_) return;
                     vizinhoAtual = vizinhoAtual->getProximoVizinho();
                 }
                 vizinhoAtual->setProximoVizinho(novoVizinho);
@@ -59,11 +62,14 @@ void Grafo::insereAresta(int idA_, int idB_) {
         }
         if (verticeAtual->getId() == idB_) {
             Vertice* novoVizinho = new Vertice(idA_);
+            novoVizinho->setProximoVizinho(nullptr);
             Vertice* vizinhoAtual = verticeAtual->getProximoVizinho();
             if (vizinhoAtual == nullptr) {
                 verticeAtual->setProximoVizinho(novoVizinho);
             } else {
+                if (vizinhoAtual->getId() == idA_) return;
                 while (vizinhoAtual->getProximoVizinho() != nullptr) {
+                    if (vizinhoAtual->getProximoVizinho()->getId() == idA_) return;
                     vizinhoAtual = vizinhoAtual->getProximoVizinho();
                 }
                 vizinhoAtual->setProximoVizinho(novoVizinho);
