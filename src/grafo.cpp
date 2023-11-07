@@ -2,32 +2,32 @@
 
 Grafo::Grafo(int tamanho_) {
     tamanho = tamanho_;
-    primeiro = new Vertice(0);
-    ultimo = primeiro;
+    primeiroVertice = new Vertice(0);
+    ultimoVertice = primeiroVertice;
     for (int i = 1; i < tamanho; i++) {
         Vertice* novoVertice = new Vertice(i);
-        ultimo->setProximo(novoVertice);
-        ultimo = novoVertice;
+        ultimoVertice->setProximo(novoVertice);
+        ultimoVertice = novoVertice;
     }
 }
 
 Grafo::~Grafo() {
-    Vertice* atual = primeiro;
-    Vertice* proximo = nullptr;
-    while (atual != nullptr) {
-        proximo = atual->getProximo();
-        delete atual;
-        atual = proximo;
+    Vertice* verticeAtual = primeiroVertice;
+    Vertice* verticeProximo = nullptr;
+    while (verticeAtual != nullptr) {
+        verticeProximo = verticeAtual->getProximo();
+        delete verticeAtual;
+        verticeAtual = verticeProximo;
     }
 }
 
 void Grafo::imprime() {
-    Vertice* atual = primeiro;
-    while (atual != nullptr) {
-        std::cout << atual->getId() << " ";
-        atual = atual->getProximo();
+    Vertice* verticeAtual = primeiroVertice;
+    while (verticeAtual != nullptr) {
+        std::cout << verticeAtual->getId() << " ";
+        verticeAtual = verticeAtual->getProximo();
     }
     std::cout << std::endl;
 }
-
+ 
 // Path: src/grafo.cpp
