@@ -21,8 +21,10 @@ int main() {
         grafo->getVertice(k)->setColor(color);
     }
 
+    grafo->coloreArestas();
+
     std::cout << "-------------------" << std::endl;
-    
+
     //imprimir grafo
     for (int i = 0; i < tamanhoGrafo; i++) {
         std::cout << i << ": cor: " << grafo->getVertice(i)->getColor();
@@ -31,6 +33,12 @@ int main() {
     }
 
     std::cout << "-------------------" << std::endl;
+
+    grafo->imprime();
+
+    std::cout << "-------------------" << std::endl;
+
+    std::cout << "Guloso: " << grafo->guloso() << std::endl;
 
     return 0;
 }

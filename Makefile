@@ -5,7 +5,7 @@ INC = include
 BIN = bin
 OBJS = $(OBJ)/main.o $(OBJ)/vertice.o $(OBJ)/grafo.o
 HDRS = $(INC)/vertice.hpp $(INC)/grafo.hpp 
-CFLAGS = -Wall -g -c -I$(INC) -std=c++11
+CFLAGS = -Wall -g -c -I $(INC) -std=c++11
 
 EXE = $(BIN)/tp2.out
 

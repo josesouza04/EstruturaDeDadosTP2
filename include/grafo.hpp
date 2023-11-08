@@ -25,6 +25,9 @@ class Grafo {
         // Tratamento dos vértices e seus vizinhos
         void insereAresta(int idA_, int idB_);
         void imprimeVizinhos(int id_);
+        void coloreArestas();
+
+        bool guloso();
 
     private:
         int tamanho;
