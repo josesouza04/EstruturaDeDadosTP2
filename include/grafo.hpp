@@ -34,6 +34,27 @@ class Grafo {
         Vertice* primeiroVertice; // Ponteiro para o primeiro vértice do grafo
         Vertice* ultimoVertice; // Ponteiro para o último vértice do grafo
 };
+/*
+class Grafo {
+    public:
+        Grafo() {vertices = NULL; tamanho = 0;};
+        Grafo(int tamanho_) {while (tamanho != tamanho_) {insereVertice();}};
+        ~Grafo() {delete []vertices;};
+        void insereVertice() {vertices[tamanho] = Vertice(tamanho); tamanho++;};
+        void insereVizinho(int idA_, int idB_) {vertices[idA_].insereVizinho(idB_);};
+        Vertice getVertice(int id_) {return vertices[id_];};
+        int getTamanho() {return tamanho;};
+        void coloreVertice(int id_, int color_) {vertices[id_].setColor(color_);};
+        bool vazio() {return tamanho == 0;};
+        void imprime();
+
+        bool guloso();
+    private:
+        Vertice* vertices;
+        int tamanho;
+};
+
+*/
 
 #endif // GRAFO_HPP
 // Path: include/vertice.hpp

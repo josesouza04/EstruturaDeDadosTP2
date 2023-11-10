@@ -143,4 +143,31 @@ void Grafo::coloreArestas() {
     }
 }
 
+/*
+void Grafo::imprime() {
+    for (int i = 0; i < tamanho; i++) {
+        std::cout << vertices[i].getId() << std::endl;
+    }
+}
+
+bool Grafo::guloso() {
+    int achouCor = 0, corEsperada = 0;
+    for (int i = 0; i < tamanho; i++) {
+        Vertice verticeAtual = vertices[i];
+        corEsperada = verticeAtual.getColor() - 1;
+        for (int j = verticeAtual.getColor() - 1; j > 0; j--) {
+            for (int k = 0; k < verticeAtual.getNumVizinhos(); k++) {
+                if (getVertice(verticeAtual.getVizinho(k)).getColor() == corEsperada) {
+                    achouCor = 1;
+                    break;
+                }
+            }
+            if (achouCor == 0) return false;
+            corEsperada--;
+        }
+    }
+    return true;
+}
+*/
+
 // Path: src/grafo.cpp

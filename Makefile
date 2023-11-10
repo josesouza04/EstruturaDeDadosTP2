@@ -3,7 +3,7 @@ SRC = src
 OBJ = obj
 INC = include
 BIN = bin
-OBJS = $(OBJ)/main.o $(OBJ)/vertice.o $(OBJ)/grafo.o
+OBJS = $(OBJ)/main.o $(OBJ)/vertice.o $(OBJ)/grafo.o 
 HDRS = $(INC)/vertice.hpp $(INC)/grafo.hpp 
 CFLAGS = -Wall -g -c -I $(INC) -std=c++11
 
