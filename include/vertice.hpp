@@ -25,28 +25,5 @@ class Vertice {
         Vertice* proximoVizinho;
 };
 
-/*
-
-#include <iostream>
-
-class Vertice {
-    public:
-        Vertice() {id = 0; coloracao = 0; vizinhos = NULL; numVizinhos = 0;};
-        Vertice(int id_) : Vertice() {id = id_;};
-        void setId(int id_) {id = id_;};
-        void setColor(int color_) {coloracao = color_;};
-        int getId() {return id;};
-        int getColor() {return coloracao;};
-        int getVizinho(int i) {return vizinhos[i];};
-        int getNumVizinhos() {return numVizinhos;};
-        void insereVizinho(int id_) {vizinhos[numVizinhos] = id_; numVizinhos++;};
-        void imprimeVizinhos();
-    private:
-        int id;
-        int coloracao;
-        int* vizinhos;
-        int numVizinhos;
-};
-*/
 #endif // VERTICE_HPP
 // Path: include/vertice.hpp

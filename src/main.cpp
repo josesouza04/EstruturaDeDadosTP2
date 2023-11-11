@@ -1,7 +1,7 @@
 #include <iostream>
 #include "grafo.hpp"
 
-void bubbleSort(Grafo* grafo_) {
+Vertice* bubbleSort(Grafo* grafo_) {
     int tamanho = grafo_->getTamanho();
     Vertice* vetor = new Vertice[tamanho];
     for (int i = 0; i < tamanho; i++) {
@@ -16,15 +16,15 @@ void bubbleSort(Grafo* grafo_) {
             }
         }
     }
-    for (int i = 0; i < tamanho; i++) {
-        std::cout << vetor[i].getId() << " ";
-    }
-    std::cout << std::endl;
+    return vetor;
 }
 
-void selectionSort(Grafo* grafo_) {
+Vertice* selectionSort(Grafo* grafo_) {
     int tamanho = grafo_->getTamanho(), menor = 0;
     Vertice* vetor = new Vertice[tamanho];
+    for (int i = 0; i < tamanho; i++) {
+        vetor[i] = *grafo_->getVertice(i);
+    }
     for (int i = 0; i < tamanho - 1; i++) {
         menor = i;
         for (int j = i + 1; j < tamanho; j++) {
@@ -38,15 +38,16 @@ void selectionSort(Grafo* grafo_) {
             vetor[menor] = aux;
         }
     }
-    for (int i = 0; i < tamanho; i++) {
-        std::cout << vetor[i].getId() << " ";
-    }
+    return vetor;
 }
 
-void insertionSort(Grafo* grafo_) {
+Vertice* insertionSort(Grafo* grafo_) {
     int tamanho = grafo_->getTamanho(), j = 0;
     Vertice* vetor = new Vertice[grafo_->getTamanho()];
     Vertice aux;
+    for (int i = 0; i < tamanho; i++) {
+        vetor[i] = *grafo_->getVertice(i);
+    }
     for (int i = 1; i < tamanho; i++) {
         aux = vetor[i];
         j = i - 1;
@@ -56,55 +57,47 @@ void insertionSort(Grafo* grafo_) {
         }
         vetor[j + 1] = aux;
     }
-    for (int i = 0; i < tamanho; i++) {
-        std::cout << vetor[i].getId() << " ";
-    }
+    return vetor;
 }
 
 void particao(int esq, int dir, int* i, int* j, Vertice* vetor) {
-    Vertice pivo, aux;
-    *i = esq;
-    *j = dir;
-    pivo = vetor[(*i + *j) / 2];
+    Vertice x, w;
+    *i = esq, *j = dir;
+    x = vetor[(*i + *j) / 2]; /* obtem o pivo x */
     do {
-        while (pivo.getColor() > vetor[*i].getColor()) {
-            (*i)++;
-        }
-        while (pivo.getColor() < vetor[*j].getColor()) {
-            (*j)--;
-        }
+        while (x.getColor() > vetor[*i].getColor()) (*i)++;
+        while (x.getColor() < vetor[*j].getColor()) (*j)--;
         if (*i <= *j) {
-            aux = vetor[*i];
+            w = vetor[*i];
             vetor[*i] = vetor[*j];
-            vetor[*j] = aux;
+            vetor[*j] = w;
             (*i)++;
             (*j)--;
         }
     } while (*i <= *j);
 }
 
-Vertice* quickSort(Vertice* vetor, int tamanho) {
+void ordena(int esq, int dir, Vertice* vetor) {
     int i, j;
-    particao(0, tamanho - 1, &i, &j, vetor);
-    if (j > 0) {
-        quickSort(vetor, j + 1);
-    }
-    if (i < tamanho) {
-        quickSort(&vetor[i], tamanho - i);
-    }
-    return vetor;
-
+    particao(esq, dir, &i, &j, vetor);
+    if (esq < j) ordena(esq, j, vetor);
+    if (i < dir) ordena(i, dir, vetor);
 }
 
-void quickSortCall(Grafo* grafo_) {
+Vertice* quickSort(Vertice* vetor, int tamanho) {
+    ordena(0, tamanho - 1, vetor);
+    return vetor;
+}
+
+Vertice* quickSortCall(Grafo* grafo_) {
     int tamanho = grafo_->getTamanho();
     Vertice* vetor = new Vertice[tamanho];
     for (int i = 0; i < tamanho; i++) {
         vetor[i] = *grafo_->getVertice(i);
     }
     vetor = quickSort(vetor, tamanho);
-
-}
+    return vetor;
+}  
 
 Vertice* merge(Vertice* vetorEsq, Vertice* vetorDir, int tamanhoEsq, int tamanhoDir) {
     int tamanho = tamanhoEsq + tamanhoDir;
@@ -153,7 +146,7 @@ Vertice* mergeSort(Vertice* vetor, int tamanho) {
     return vetor;
 }
 
-void mergeSortCall(Grafo* grafo_) {
+Vertice* mergeSortCall(Grafo* grafo_) {
     int tamanho = grafo_->getTamanho();
     Vertice* vetor = new Vertice[tamanho];
     for (int i = 0; i < tamanho; i++) {
@@ -161,9 +154,7 @@ void mergeSortCall(Grafo* grafo_) {
     }
     vetor = mergeSort(vetor, tamanho);
 
-    for (int i = 0; i < tamanho; i++) {
-        std::cout << vetor[i].getId() << " ";
-    }
+    return vetor;
 }
 
 Vertice* heapSort(Vertice* vetor, int tamanho) {
@@ -183,7 +174,7 @@ Vertice* heapSort(Vertice* vetor, int tamanho) {
     return vetor;
 }
 
-void heapSortCall(Grafo* grafo_) {
+Vertice* heapSortCall(Grafo* grafo_) {
     int tamanho = grafo_->getTamanho();
     Vertice* vetor = new Vertice[tamanho];
     for (int i = 0; i < tamanho; i++) {
@@ -191,13 +182,17 @@ void heapSortCall(Grafo* grafo_) {
     }
     vetor = heapSort(vetor, tamanho);
 
-    for (int i = 0; i < tamanho; i++) {
-        std::cout << vetor[i].getId() << " ";
-    }
+    return vetor;
 }
 
-void mySort(Grafo* grafo_) {
-    return;
+Vertice* mySort(Grafo* grafo_) {
+    Vertice* vetor = new Vertice[grafo_->getTamanho()];
+    for (int i = 0; i < grafo_->getTamanho(); i++) {
+        vetor[i] = *grafo_->getVertice(i);
+    }
+    int tamanho = grafo_->getTamanho();
+    vetor = bubbleSort(grafo_);
+    return vetor;
 }
 
 int main() {
@@ -222,88 +217,44 @@ int main() {
 
     grafo->coloreArestas();
 
-    std::cout << "-------------------" << std::endl;
+    Vertice* vetor = new Vertice[tamanhoGrafo];
 
-    //imprimir grafo
-    for (int i = 0; i < tamanhoGrafo; i++) {
-        std::cout << i << ": cor: " << grafo->getVertice(i)->getColor();
-        std::cout << " vizinhos: ";
-        grafo->imprimeVizinhos(i);
-    }
-
-    std::cout << "-------------------" << std::endl;
-
-    grafo->imprime();
-
-    std::cout << "-------------------" << std::endl;
-
-    std::cout << "Guloso: " << grafo->guloso() << std::endl;
-
-    std::cout << "-------------------" << std::endl;
-
-    std::cin >> tipoOrdena;
 
     switch (tipoOrdena) {
         case 'b':
-            bubbleSort(grafo); // funciona
-            break;
-        case 's':
-            selectionSort(grafo); // nao funciona
+            vetor = bubbleSort(grafo); // funciona
             break;
         case 'i':
-            insertionSort(grafo); // nao funciona
+            vetor = insertionSort(grafo); // funciona
+            break;
+        case 's':
+            vetor = selectionSort(grafo); // funciona
             break;
         case 'q':
-            quickSortCall(grafo); // nao funciona
+            vetor = quickSortCall(grafo); // funciona
             break;
         case 'm':
-            mergeSortCall(grafo); // funciona
+            vetor = mergeSortCall(grafo); // funciona
             break;
         case 'p':
-            heapSortCall(grafo); // nao funciona
+            vetor = heapSortCall(grafo); // funciona
             break;
         case 'y':
-            mySort(grafo); // nao funciona
+            vetor = mySort(grafo); // funciona
             break;
-        default:
-            break;
+    }
+
+    if (grafo->guloso()) {
+        std::cout << "1 ";
+        for (int i = 0; i < tamanhoGrafo; i++) {
+            std::cout << vetor[i].getId() << " ";
+        }
+        std::cout << std::endl;
+    } else {
+        std::cout << "0" << std::endl;
     }
   
     return 0;
 } 
 
-
-/*
-int main() {
-    char tipoOrdena;
-    int tamanho = 0, id = 0, numVizinhos = 0, color = 0;
-
-    std::cin >> tipoOrdena >> tamanho;
-    Grafo grafo = Grafo(tamanho);
-
-    for (int i = 0; i < tamanho; i++) {
-        std::cin >> numVizinhos;
-        for (int j = 0; j < numVizinhos; j++) {
-            std::cin >> id;
-            grafo.insereVizinho(i, id);
-        }
-    }
-
-    for (int k = 0; k < tamanho; k++) {
-        std::cin >> color;
-        grafo.coloreVertice(k, color);
-    }
-
-    std::cout << "--------------------" << std::endl;
-    
-    if (grafo.guloso()) {
-        std::cout << "GULOSO" << std::endl;
-    } else {
-        std::cout << "NAO" << std::endl;
-    }
-
-    std::cout << "--------------------------" << std::endl;
-}
-
-*/
 // Path: src/main.cpp
