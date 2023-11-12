@@ -1,28 +1,28 @@
 #ifndef VERTICE_HPP
 #define VERTICE_HPP
 
-
 class Vertice {
     public:
         // Construtores
-        Vertice() {id = 0; coloracao = 0; proximo = nullptr; proximoVizinho = nullptr;}; 
-        Vertice(int id_) {id = id_; coloracao = 0; proximo = nullptr; proximoVizinho = nullptr;};
+        Vertice();
+        Vertice(int id_);
 
         // Funções de manipulação do Vértice
-        void setId(int id_) {id = id_;};
-        void setColor(int color_) {coloracao = color_;};
-        void setProximo(Vertice* proximo_) {proximo = proximo_;};
-        void setProximoVizinho(Vertice* proximoVizinho_) {proximoVizinho = proximoVizinho_;};
-        int getId() {return id;};
-        int getColor() {return coloracao;};
-        Vertice* getProximo() {return proximo;};
-        Vertice* getProximoVizinho() {return proximoVizinho;};
+        void setId(int id_);
+        void setColor(int color_);
+        void setProximo(Vertice* proximo_);
+        void setProximoVizinho(Vertice* proximoVizinho_);
+        int getId();
+        int getColor();
+        Vertice* getProximo();
+        Vertice* getProximoVizinho();
 
     private:
+        // Atributos do Vértice
         int id;
         int coloracao;
-        Vertice* proximo;
-        Vertice* proximoVizinho;
+        Vertice* proximo; // Ponteiro para o próximo vértice da lista
+        Vertice* proximoVizinho; // Ponteiro para o próximo vizinho do vértice
 };
 
 #endif // VERTICE_HPP

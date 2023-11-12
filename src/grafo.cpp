@@ -1,6 +1,14 @@
 #include "grafo.hpp"
 
-Grafo::Grafo(int tamanho_) {
+Grafo::Grafo() {
+    // Inicializa os atributos do grafo como nulos
+    tamanho = 0;
+    primeiroVertice = nullptr;
+    ultimoVertice = nullptr;
+}
+
+Grafo::Grafo(int tamanho_) { // O(n)
+    // Cria um grafo ordenado numericamente
     tamanho = tamanho_;
     primeiroVertice = new Vertice(0);
     Vertice* verticeAtual = primeiroVertice;
@@ -11,17 +19,42 @@ Grafo::Grafo(int tamanho_) {
     }
 }
 
-Grafo::~Grafo() {
+Grafo::~Grafo() { // O(n)
     Vertice* verticeAtual = primeiroVertice;
     Vertice* verticeProximo = nullptr;
     while (verticeAtual != nullptr) { // Percorre a lista de vértices
         verticeProximo = verticeAtual->getProximo();
-        delete verticeAtual;
+        delete verticeAtual; // Deleta vértice por vértice
         verticeAtual = verticeProximo;
     }
+
 }
 
-Vertice* Grafo::getVertice(int id_) { 
+void Grafo::setTamanho(int tamanho_) {
+    tamanho = tamanho_;
+}
+
+void Grafo::setPrimeiroVertice(Vertice* primeiroVertice_) {
+    primeiroVertice = primeiroVertice_;
+}
+
+void Grafo::setUltimoVertice(Vertice* ultimoVertice_) {
+    ultimoVertice = ultimoVertice_;
+}
+
+int Grafo::getTamanho() {
+    return tamanho;
+}
+
+Vertice* Grafo::getPrimeiroVertice() {
+    return primeiroVertice;
+}
+
+Vertice* Grafo::getUltimoVertice() {
+    return ultimoVertice;
+}
+
+Vertice* Grafo::getVertice(int id_) { // O(n)
     Vertice* verticeAtual = primeiroVertice;
     while (verticeAtual != nullptr) { // Percorre a lista de vértices
         if (verticeAtual->getId() == id_) {
@@ -32,16 +65,20 @@ Vertice* Grafo::getVertice(int id_) {
     return nullptr; // Vértice não encontrado
 }
 
-void Grafo::imprime() {
+bool Grafo::vazio() {
+    return (tamanho == 0);
+}
+
+void Grafo::imprime() { // O(n)
     Vertice* verticeAtual = primeiroVertice;
-    while (verticeAtual != nullptr) {
+    while (verticeAtual != nullptr) { // Percorre a lista de vértices
         std::cout << verticeAtual->getId() << "(" << verticeAtual->getColor() << ")" << " ";
         verticeAtual = verticeAtual->getProximo();
     }
     std::cout << std::endl;
 }
 
-void Grafo::insereAresta(int idA_, int idB_) {
+void Grafo::insereAresta(int idA_, int idB_) { // O(n)
     Vertice* verticeAtual = primeiroVertice;
     while (verticeAtual != nullptr) { // Percorre a lista de vértices
         if (verticeAtual->getId() == idA_) {
@@ -88,7 +125,7 @@ void Grafo::insereAresta(int idA_, int idB_) {
     }
 }
 
-void Grafo::imprimeVizinhos(int id_) {
+void Grafo::imprimeVizinhos(int id_) { // O(n)
     Vertice* verticeAtual = primeiroVertice;
     while (verticeAtual != nullptr) {
         if (verticeAtual->getId() == id_) {
@@ -103,31 +140,8 @@ void Grafo::imprimeVizinhos(int id_) {
     }
 }
 
-bool Grafo::guloso() {
-    Vertice* verticeAtual = primeiroVertice;
-    for (int i = 0; i < tamanho; i++) { // Percorre a lista de vértices
-        Vertice* vizinhoAtual = verticeAtual->getProximoVizinho();
-        int corAtual = verticeAtual->getColor(), corEsperada = 1;
-        while (corEsperada < corAtual) {
-            int encontrouCor = 0;
-            while (vizinhoAtual != nullptr) { // Percorre a lista de vizinhos
-                if (vizinhoAtual->getColor() == corEsperada) {
-                    encontrouCor = 1;
-                    break;
-                }
-                vizinhoAtual = vizinhoAtual->getProximoVizinho();
-            }
-            if (encontrouCor == 0) {
-                return false;
-            }
-            corEsperada++;
-        }
-        verticeAtual = verticeAtual->getProximo();
-    }
-    return true;
-}
-
-void Grafo::coloreArestas() {
+void Grafo::coloreArestas() { // O(n^2)
+    // Colore os vizinhos de cada vértice com a mesma cor do vértice referido
     for (int i = 0; i < tamanho; i++) {
         Vertice* verticeAtual = getVertice(i);
         for (int j = 0; j < tamanho; j++) {
@@ -141,6 +155,32 @@ void Grafo::coloreArestas() {
             }
         }
     }
+}
+
+bool Grafo::guloso() { // O(n^2)
+    // Checa se a coloração do grafo é gulosa
+    // Coloração gulosa: cada vértice tem pelo menos um vizinho com cada cor menor que a dele
+    Vertice* verticeAtual = primeiroVertice;
+    for (int i = 0; i < tamanho; i++) { // Percorre a lista de vértices
+        Vertice* vizinhoAtual = verticeAtual->getProximoVizinho();
+        int corAtual = verticeAtual->getColor(), corEsperada = 1;
+        while (corEsperada < corAtual) { // Percorre as cores menores que a do vértice atual
+            int encontrouCor = 0;
+            while (vizinhoAtual != nullptr) { // Percorre a lista de vizinhos
+                if (vizinhoAtual->getColor() == corEsperada) {
+                    encontrouCor = 1;
+                    break;
+                }
+                vizinhoAtual = vizinhoAtual->getProximoVizinho();
+            }
+            if (encontrouCor == 0) { // Se não encontrou um vizinho com a cor esperada
+                return false;
+            }
+            corEsperada++;
+        }
+        verticeAtual = verticeAtual->getProximo();
+    }
+    return true;
 }
 
 // Path: src/grafo.cpp

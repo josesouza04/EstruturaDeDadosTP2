@@ -7,19 +7,19 @@
 class Grafo {
     public:
         // Construtores e destrutor
-        Grafo() {tamanho = 0; primeiroVertice = nullptr; ultimoVertice = nullptr;};
+        Grafo();
         Grafo(int tamanho_); // Construtor que recebe o tamanho do grafo e cria um grafo ordenado numericamente
         ~Grafo();
 
         // Funções de manipulação do Grafo
-        void setTamanho(int tamanho_) {tamanho = tamanho_;};
-        void setPrimeiroVertice(Vertice* primeiroVertice_) {primeiroVertice = primeiroVertice_;};
-        void setUltimoVertice(Vertice* ultimoVertice_) {ultimoVertice = ultimoVertice_;};
-        int getTamanho() {return tamanho;};
-        Vertice* getPrimeiroVertice() {return primeiroVertice;};
-        Vertice* getUltimoVertice() {return ultimoVertice;};
+        void setTamanho(int tamanho_);
+        void setPrimeiroVertice(Vertice* primeiroVertice_);
+        void setUltimoVertice(Vertice* ultimoVertice_);
+        int getTamanho();
+        Vertice* getPrimeiroVertice();
+        Vertice* getUltimoVertice();
         Vertice* getVertice(int id_);
-        bool vazio() {return (tamanho == 0);};
+        bool vazio();
         void imprime();
 
         // Tratamento dos vértices e seus vizinhos
@@ -30,6 +30,7 @@ class Grafo {
         bool guloso();
 
     private:
+        // Atributos do Grafo
         int tamanho;
         Vertice* primeiroVertice; // Ponteiro para o primeiro vértice do grafo
         Vertice* ultimoVertice; // Ponteiro para o último vértice do grafo
