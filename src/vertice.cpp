@@ -10,6 +10,7 @@ Vertice::Vertice() {
 
 Vertice::Vertice(int id_) : Vertice() {
     // Inicializa o id do vértice com o valor passado como parâmetro
+    if (id_ < 0) throw "Id do vértice não pode ser negativo!";
     id = id_;
 }
 

@@ -9,6 +9,7 @@ class Grafo {
         // Construtores e destrutor
         Grafo();
         Grafo(int tamanho_); // Construtor que recebe o tamanho do grafo e cria um grafo ordenado numericamente
+        // O(n)
         ~Grafo();
 
         // Funções de manipulação do Grafo
@@ -23,9 +24,9 @@ class Grafo {
         void imprime();
 
         // Tratamento dos vértices e seus vizinhos
-        void insereAresta(int idA_, int idB_);
-        void imprimeVizinhos(int id_);
-        void coloreArestas();
+        void insereAresta(int idA_, int idB_); // O(n)
+        void imprimeVizinhos(int id_); // O(n)
+        void coloreArestas(); // O(n^2)
 
         bool guloso();
 

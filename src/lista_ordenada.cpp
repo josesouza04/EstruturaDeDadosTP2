@@ -1,5 +1,4 @@
 #include "lista_ordenada.hpp"
-#include <cmath>
 
 ListaOrdenada::ListaOrdenada() {
     // Inicializa os atributos da lista ordenada como nulos
@@ -10,6 +9,7 @@ ListaOrdenada::ListaOrdenada() {
 ListaOrdenada::ListaOrdenada(Grafo* grafo_) { // O(n)
     // Cria a lista ordenada a partir do grafo passado como parâmetro
     // Os itens da lista são os vértices do grafo
+    if (grafo_ == nullptr) throw "Grafo não pode ser nulo!";
     tamanho = grafo_->getTamanho();
     vertices = new Vertice[tamanho];
     for (int i = 0; i < tamanho; i++) {
@@ -22,6 +22,7 @@ ListaOrdenada::~ListaOrdenada() {
 }
 
 void ListaOrdenada::bubbleSort() { // O(n^2)
+    if (tamanho <= 1) return;
     for (int i = 0; i < tamanho; i++) {
         for (int j = 0; j < tamanho - 1; j++) {
             if (vertices[j].getColor() > vertices[j + 1].getColor()) { 
@@ -34,6 +35,7 @@ void ListaOrdenada::bubbleSort() { // O(n^2)
 }
 
 void ListaOrdenada::selectionSort() { // O(n^2)
+    if (tamanho <= 1) return;
     int menor = 0;
     for (int i = 0; i < tamanho - 1; i++) { // O(n^2)
         menor = i;
@@ -52,6 +54,7 @@ void ListaOrdenada::selectionSort() { // O(n^2)
 }
 
 void ListaOrdenada::insertionSort() { // O(n^2)
+    if (tamanho <= 1) return;
     int j = 0;
     Vertice aux;
     for (int i = 1; i < tamanho; i++) { // O(n^2) no pior caso
@@ -68,11 +71,13 @@ void ListaOrdenada::insertionSort() { // O(n^2)
     }
 }
 
-void ListaOrdenada::quickSort() { // O(n log n)
-    ordena(0, tamanho - 1); // Chama a função auxiliar do quickSort
+void ListaOrdenada::quickSort() { // O(n^2)
+    if (tamanho <= 1) return;
+    ordena(0, tamanho - 1);
+
     // Garante que os vértices com a mesma cor fiquem ordenados por id
     // Proporciona estabilidade ao algoritmo
-    for (int j = 0; j < tamanho - 1; j++) { // O(n)
+    for (int j = 0; j < tamanho - 1; j++) {
         if (vertices[j].getColor() == vertices[j + 1].getColor()) {
             if (vertices[j].getId() > vertices[j + 1].getId()) {
                 troca(j, j + 1);
@@ -82,14 +87,24 @@ void ListaOrdenada::quickSort() { // O(n log n)
 }
 
 void ListaOrdenada::mergeSort() { // O(n log n)
+    if (tamanho <= 1) return;
     vertices = mergeSortDivide(vertices, tamanho); // Chama a função auxiliar do mergeSort
 }
 
 void ListaOrdenada::heapSort() { // O(n log n)
-    vertices = heapSortAux(vertices, tamanho); // Chama a função auxiliar do heapSort
+    if (tamanho <= 1) return;
+    for (int i = tamanho / 2 - 1; i >= 0; i--) {
+        heapify(tamanho, i);
+    }
+
+    for (int i = tamanho - 1; i >= 0; i--) {
+        troca(0, i);
+        heapify(i, 0);
+    }
 }
 
-void ListaOrdenada::mySort() {
+void ListaOrdenada::mySort() { // O(n^2)
+    if (tamanho <= 1) return;
     for (int i = 0; i < tamanho - 1; i++) {
         for (int j = i + 1; j < tamanho; j++) {
             if (vertices[i].getColor() > vertices[j].getColor()) {
@@ -99,16 +114,20 @@ void ListaOrdenada::mySort() {
     }
 }
 
-void ListaOrdenada::particao(int esq, int dir, int* i, int* j) { // O(n log n)
+void ListaOrdenada::particao(int esq, int dir, int* i, int* j) {
     Vertice pivo, aux;
     *i = esq;
     *j = dir;
-    pivo = vertices[(*i + *j) / 2]; // Pivo é o vértice do meio
+    pivo = vertices[(*i + *j) / 2];
+
     do {
-        while (pivo.getColor() > vertices[*i].getColor()) (*i)++; // Encontra o vértice com cor maior que a do pivo
-        while (pivo.getColor() < vertices[*j].getColor()) (*j)--; // Encontra o vértice com cor menor que a do pivo
-        if (*i <= *j) 
-        { // Se os vértices não se cruzaram troca os vértices de posição
+        while (vertices[*i].getColor() < pivo.getColor())
+            (*i)++;
+
+        while (vertices[*j].getColor() > pivo.getColor())
+            (*j)--;
+
+        if (*i <= *j) {
             troca(*i, *j);
             (*i)++;
             (*j)--;
@@ -116,12 +135,15 @@ void ListaOrdenada::particao(int esq, int dir, int* i, int* j) { // O(n log n)
     } while (*i <= *j);
 }
 
-void ListaOrdenada::ordena(int esq, int dir) { // O(n log n)
-    // Chama a função particao e ordena recursivamente os vértices
+void ListaOrdenada::ordena(int esq, int dir) {
     int i, j;
     particao(esq, dir, &i, &j);
-    if (esq < j) ordena(esq, j);
-    if (i < dir) ordena(i, dir);
+
+    if (esq < j)
+        ordena(esq, j);
+
+    if (i < dir)
+        ordena(i, dir);
 }
 
 Vertice* ListaOrdenada::merge(Vertice* vetorEsq, Vertice* vetorDir, int tamanhoEsq, int tamanhoDir) { // O(n)
@@ -149,6 +171,9 @@ Vertice* ListaOrdenada::merge(Vertice* vetorEsq, Vertice* vetorDir, int tamanhoE
         j++;
         k++;
     }
+    delete[] vetorEsq;
+    delete[] vetorDir;
+
     return vetor;
 }
 
@@ -169,22 +194,26 @@ Vertice* ListaOrdenada::mergeSortDivide(Vertice* vetor, int tamanho) { // O(n lo
         vetorEsq = mergeSortDivide(vetorEsq, tamanhoEsq);
         vetorDir = mergeSortDivide(vetorDir, tamanhoDir);
     }
+    delete[] vetor;
 
     return merge(vetorEsq, vetorDir, tamanhoEsq, tamanhoDir);
 }
 
-Vertice* ListaOrdenada::heapSortAux(Vertice* vetor_, int tamanho_) { // O(n)
-    int maior = 0;
-    for (int i = 0; i < tamanho_; i++) { // O(n)
-        if (vetor_[i].getColor() > vetor_[maior].getColor()) {
-            maior = i;
-        }
+void ListaOrdenada::heapify(int n, int i) {
+    int maior = i;
+    int esquerda = 2 * i + 1;
+    int direita = 2 * i + 2;
+
+    if (esquerda < n && vertices[esquerda].getColor() > vertices[maior].getColor())
+        maior = esquerda;
+
+    if (direita < n && vertices[direita].getColor() > vertices[maior].getColor())
+        maior = direita;
+
+    if (maior != i) {
+        troca(i, maior);
+        heapify(n, maior);
     }
-    troca(maior, tamanho_ - 1);
-    if (tamanho_ > 1) {
-        vetor_ = heapSortAux(vetor_, tamanho_ - 1);
-    }
-    return vetor_;
 }
 
 void ListaOrdenada::imprime() { // O(n)
@@ -195,6 +224,7 @@ void ListaOrdenada::imprime() { // O(n)
 }
 
 void ListaOrdenada::troca(int i_, int j_) { // O(1)
+    if ((i_ < 0) || (j_ < 0)) throw "Índice não pode ser negativo!";
     // Troca os vértices de posição
     Vertice aux = vertices[i_];
     vertices[i_] = vertices[j_];

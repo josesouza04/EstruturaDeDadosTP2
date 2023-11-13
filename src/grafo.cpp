@@ -9,6 +9,7 @@ Grafo::Grafo() {
 
 Grafo::Grafo(int tamanho_) { // O(n)
     // Cria um grafo ordenado numericamente
+    if (tamanho_ < 0) throw "Tamanho do grafo não pode ser negativo!";
     tamanho = tamanho_;
     primeiroVertice = new Vertice(0);
     Vertice* verticeAtual = primeiroVertice;
@@ -55,11 +56,11 @@ Vertice* Grafo::getUltimoVertice() {
 }
 
 Vertice* Grafo::getVertice(int id_) { // O(n)
+    if (id_ < 0) throw "Id do vértice não pode ser negativo!";
     Vertice* verticeAtual = primeiroVertice;
     while (verticeAtual != nullptr) { // Percorre a lista de vértices
-        if (verticeAtual->getId() == id_) {
-            return verticeAtual; // Ponteiro para o vértice encontrado
-        }
+        if (verticeAtual->getId() == id_) return verticeAtual; 
+        // Ponteiro para o vértice encontrado
         verticeAtual = verticeAtual->getProximo();
     }
     return nullptr; // Vértice não encontrado
@@ -79,6 +80,7 @@ void Grafo::imprime() { // O(n)
 }
 
 void Grafo::insereAresta(int idA_, int idB_) { // O(n)
+    if (idA_ < 0 || idB_ < 0) throw "Id do vértice não pode ser negativo!";
     Vertice* verticeAtual = primeiroVertice;
     while (verticeAtual != nullptr) { // Percorre a lista de vértices
         if (verticeAtual->getId() == idA_) {
@@ -94,7 +96,7 @@ void Grafo::insereAresta(int idA_, int idB_) { // O(n)
                 verticeAtual->setProximoVizinho(novoVizinho);
             } else {
                 if (vizinhoAtual->getId() == idB_) return; // Se o vértice já é vizinho
-                while (vizinhoAtual->getProximoVizinho() != nullptr) {
+                while (vizinhoAtual->getProximoVizinho() != nullptr) { 
                     if (vizinhoAtual->getProximoVizinho()->getId() == idB_) return; // Se o vértice já é vizinho
                     vizinhoAtual = vizinhoAtual->getProximoVizinho();
                 }
@@ -142,7 +144,8 @@ void Grafo::imprimeVizinhos(int id_) { // O(n)
 
 void Grafo::coloreArestas() { // O(n^2)
     // Colore os vizinhos de cada vértice com a mesma cor do vértice referido
-    for (int i = 0; i < tamanho; i++) {
+    try {
+        for (int i = 0; i < tamanho; i++) {
         Vertice* verticeAtual = getVertice(i);
         for (int j = 0; j < tamanho; j++) {
             Vertice* verticeIterado = getVertice(j);
@@ -155,11 +158,15 @@ void Grafo::coloreArestas() { // O(n^2)
             }
         }
     }
+    } catch (const char* msg) {
+        std::cerr << "Erro na coloração das arestas!" << std::endl;
+    }
 }
 
 bool Grafo::guloso() { // O(n^2)
     // Checa se a coloração do grafo é gulosa
     // Coloração gulosa: cada vértice tem pelo menos um vizinho com cada cor menor que a dele
+    if (tamanho == 0) return false;
     Vertice* verticeAtual = primeiroVertice;
     for (int i = 0; i < tamanho; i++) { // Percorre a lista de vértices
         Vertice* vizinhoAtual = verticeAtual->getProximoVizinho();
@@ -173,13 +180,14 @@ bool Grafo::guloso() { // O(n^2)
                 }
                 vizinhoAtual = vizinhoAtual->getProximoVizinho();
             }
-            if (encontrouCor == 0) { // Se não encontrou um vizinho com a cor esperada
+            if (encontrouCor == 2) { // Se não encontrou um vizinho com a cor esperada
                 return false;
             }
             corEsperada++;
         }
         verticeAtual = verticeAtual->getProximo();
     }
+    
     return true;
 }
 

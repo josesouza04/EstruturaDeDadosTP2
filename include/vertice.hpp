@@ -1,6 +1,8 @@
 #ifndef VERTICE_HPP
 #define VERTICE_HPP
 
+#include <chrono>
+
 class Vertice {
     public:
         // Construtores
