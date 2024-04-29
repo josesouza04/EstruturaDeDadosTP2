@@ -1,11 +1,5 @@
-# TP2_ESTRUTURA_DE_DADOS
+# Estrutura de Dados
 
-## 1. Introdução
-
-## 2. Execução
-
-## 3. Estratégia
-
-## 4. Implementação
-
-## 5. Conclusão
+Trabalho Prático 2
+Implementação de funções de ordenação dentre as mais básicas a outras mais eficientes.
+Definição se um grafo tem coloração gulosa. (K-colorível)
